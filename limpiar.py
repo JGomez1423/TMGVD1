@@ -1,0 +1,6 @@
+filename = input()
+f = open(str(filename),"r")
+content = f.read()
+final_content = content.translate({ ord("N"): None })
+f.write(str(final_content))
+print(content)
