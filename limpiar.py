@@ -1,6 +1,7 @@
 filename = input()
 f = open(str(filename),"r")
 content = f.read()
-final_content = content.translate({ ord("N"): None })
+content.upper();
+final_content = content.translate({ ord(c): None for c in "N>" })
 f.write(str(final_content))
-print(content)
+#print(content)
