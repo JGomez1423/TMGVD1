@@ -11,7 +11,7 @@ using namespace std;
 void kmers(std::string seg, int k);
 int b = 8;
 // Const for b = 4
-double am = 0.673;
+double am = 0.7182;
 // stdl hash struct
 hash<string> h;
 // Total buckets
@@ -21,6 +21,7 @@ unsigned long long first_bb(unsigned long long x) { return (x >> (64 - b)); }
 // Return an int equal to x minus the first b bytes
 unsigned long long resto(unsigned long long x) { return (x << b); }
 vector<int> v1(m, 0);
+std::set<std::string> Real;
 
 void procesar(string M) {
   // Apply the hash function to the string i
@@ -33,7 +34,7 @@ void procesar(string M) {
   v1[j] = max(v1[j], __builtin_clz(w) + 1);
 }
 
-double hll() {
+int hll() {
   // Raw Estimate
   double E;
 
@@ -86,7 +87,6 @@ int main() {
   std::vector<std::string> k1;
   std::set<std::string> set1;
   std::multiset<std::string> M;
-  std::set<std::string> Real;
   if (newFile.is_open()) {
     while (newFile.peek() != EOF) {
       getline(newFile, line);
@@ -100,6 +100,7 @@ int main() {
     newFile.close();
   }
   cout << "respuesta: " << hll() << endl;
+  cout << "Real: " << Real.size() << endl;
   set1.clear();
   return 0;
 }
@@ -111,5 +112,6 @@ void kmers(std::string seg, int k) {
     int posi = i, posf = i + k;
     // Inserting the kmer directly in to the sketch
     procesar(seg.substr(posi, k));
+    Real.insert(seg.substr(posi, k));
   }
 }
