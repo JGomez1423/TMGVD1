@@ -1,71 +1,75 @@
 #include <bits/stdc++.h>
-int M=32;
+int M=1024;
 using namespace std;
-
-vector<int> sketch(M,0);
+set<string> Real;
+vector<int> sketch(M);
 long R(long x){
     return ~x &(x+1);
+}
+int countZeros(int x){
+  int cont=0;
+  while(x&1){
+    cont++;
+    x=x>>1;
+  }
+  return cont;
 }
 void Update(string s){
     hash<string> h;
     hash <long> h2;
     long x= h(s);
-    int k = h2(x)%M;
+    int k = h2(x)%(M-1);
     sketch[k]=sketch[k]|R(x);
-    //cout<<sketch[k]<<endl;
 } 
 long estimacion(){
-    int k=M;
-    int sum=0;
-    for(int i=0;i<k;i++){
-        sum+=R(sketch[i]);
+    double sum=0.0;
+    for(int i=0;i<M;i++){
+      sum+=countZeros(sketch[i]);
+      //  cout<<countZeros(sketch[i])<<endl;
     }
+    //cout<<sum<<endl;
     double media=1.0*sum/M;
-    return M*pow(2,media)/0.77351;    
+   // cout<<"media: "<<media<<endl;
+    return (M*pow(2,media))/0.77351;    
 }
-void kmers(vector<string> &v1,string seg,int k) {
-  int size=seg.size();
-  int kmer_size=size-k+1;
-  for (int i=0;i<kmer_size;++i) {
-    int posi=i,posf=i+k;
-    if (posf<size)
-      v1.push_back(seg.substr(posi, k));
+void kmers(std::string seg, int k) {
+  int size = seg.size();
+  int kmer_size = size - k + 1;
+  if(seg[0]=='>') return;
+  for (int i = 0; i < kmer_size; ++i) {
+    int posi = i, posf = i + k;
+    // Inserting the kmer directly in to the sketch
+    Update(seg.substr(posi, k));
+    Real.insert(seg.substr(posi, k));
   }
 }
+
 int main() {
-  srand(time(NULL));
-  int j=0;
-  cout <<"Ingrese nombre del archivo: " <<endl;
-  string filename, line;
-  cin>>filename;
-  int S=0,x=31;
-  ifstream newFile(filename);
-  vector<string> k1;
-  set<string> set1;
-  multiset<string> m;
-  set<string> Real;
+  int j = 0;
+  std::cout << "Ingrese nombre del archivo: " << std::endl;
+
+  std::string filename, line;
+  std::cin >> filename;
+  // Cardinalidad del conjunto de Genomas
+  int S = 0, x = 31;
+  std::ifstream newFile(filename);
+  std::vector<std::string> k1;
+  std::set<std::string> set1;
+  std::multiset<std::string> M;
   if (newFile.is_open()) {
-    while (newFile.peek()!=EOF) {
-      getline(newFile,line);
-      if (line.size()>=x)
-        x=line.size();
-      if (line!="")
-        kmers(k1,line,31);
-        for( auto i:k1){
-            Update(i);
-            m.insert(i);
-            Real.insert(i);
-        }
+    while (newFile.peek() != EOF) {
+      getline(newFile, line);
+      if (line.size() >= x)
+        x = line.size();
+      if (line != "")
+        kmers(line, 31);
+      k1.clear();
       S++;
     }
     newFile.close();
   }
-
-  cout<<"Cantidad real: "<<Real.size()<<endl;
-  for(int i=0;i<=10;i++){
-    long r=estimacion();
-    cout<<"respuesta: "<<r<<endl;
-  }
-
+  cout << "respuesta: " << estimacion() << endl;
+  cout << "Real: " << Real.size() << endl;
+  set1.clear();
   return 0;
 }
