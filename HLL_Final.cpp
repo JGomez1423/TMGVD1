@@ -14,7 +14,7 @@ int b = 8;
 // stdl hash struct
 hash<string> h;
 // Total buckets
-int m = pow(2, b);
+double m = pow(2, b);
 //Const
 double am = (0.7213/(1 + 1.079/m));
 // Return an int that cointains only the first b bytes
