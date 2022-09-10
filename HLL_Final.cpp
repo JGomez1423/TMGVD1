@@ -24,6 +24,25 @@ unsigned long long resto(unsigned long long x) { return (x << b); }
 vector<int> v1(m, 0);
 std::set<std::string> Real;
 
+
+vector<int> union(vector<int> v1, vector<int> v2){
+    vector<int> f(m,0);
+    for(auto i : f){
+        f[i] = max(v1[i],v2[i]);
+    }
+    return f;
+}
+
+//Returns the cardinallity of the intersection
+// |A|+|B| - |A U B|
+unsigned long long intersection(unsigned long long A, unsigned long long B, unsigned long long U){
+    return (A+B-U);
+}
+
+unsigned long long jaccard(unsigned long long I, unsigned long long U){
+    return (I/U);
+}
+
 void procesar(string M) {
   // Apply the hash function to the string i
   unsigned long long x = h(M);
@@ -97,7 +116,6 @@ int main() {
     newFile.close();
   }
   cout << "respuesta: " << hll() << endl;
-  set1.clear();
   return 0;
 }
 
