@@ -6,6 +6,7 @@ HLL Mods: Intersección, Jaccard Distance, Diferencia Simétrica
 UTILS: https://agkn.wordpress.com/2013/04/02/sketch-of-the-day-probabilistic-counting-with-stochastic-averaging-pcsa/
 
 Las instrucciones de uso son las siguientes:
+
   -La depuracion del archivo, para que los programas de analisis funcionen de manera correscta, se necesita que......
 
   -Para el uso de HyperLogLog primero se debe compilar, usando su compilador de c++ de preferencia, el codigo HLL_FINAL.cpp, luego se debe ejecutar el codigo,
