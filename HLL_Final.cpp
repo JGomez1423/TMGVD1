@@ -25,7 +25,7 @@ vector<int> v1(m, 0);
 std::set<std::string> Real;
 
 
-vector<int> union_hll(vector<int> v, vector<int> v2){
+vector<int> unionHLL(vector<int> v, vector<int> v2){
     vector<int> f(m,0);
     for(auto i : f){
         f[i] = max(v[i],v2[i]);
